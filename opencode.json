@@ -3,6 +3,21 @@
   "disabled_providers": [
     "zen"
   ],
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      ".git/**",
+      "target/**"
+    ]
+  },
+  "permission": {
+    "edit": "allow",
+    "bash": "ask"
+  },
+  "share": "disabled",
+  "model": "opencode-go/glm-5.1",
+  "small_model": "openrouter/openai/gpt-5.4-nano",
   "plugin": [
     "https://github.com/inkdust2021/opencode-vibeguard.git#f965b33468bafa27ac0654a04f5ed3c7c29c9b13"
   ],
@@ -58,6 +73,26 @@
         "baseURL": "http://localhost:1234/v1"
       },
       "models": {
+        "glm-4.7-flash": {
+          "name": "GLM 4.7 Flash MXFP4 MoE@gguf-uknw",
+          "variants": {
+            "none": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
         "google/gemma-4-26b-a4b": {
           "name": "Gemma 4 26B A4B@gguf-Q6_K",
           "variants": {
@@ -80,66 +115,6 @@
         },
         "qwen3.5-9b-claude-4.6-opus-reasoning-distilled-v2": {
           "name": "Qwen3.5 9B@gguf-Q5_K_M",
-          "variants": {
-            "none": {
-              "reasoningEffort": "none"
-            },
-            "low": {
-              "reasoningEffort": "low"
-            },
-            "medium": {
-              "reasoningEffort": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh"
-            }
-          }
-        },
-        "qwen3.5-9b": {
-          "name": "Qwen3.5 9B@gguf-Q5_K_M",
-          "variants": {
-            "none": {
-              "reasoningEffort": "none"
-            },
-            "low": {
-              "reasoningEffort": "low"
-            },
-            "medium": {
-              "reasoningEffort": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh"
-            }
-          }
-        },
-        "glm-4.7-flash@?": {
-          "name": "GLM 4.7 Flash MXFP4 MoE@gguf-uknw",
-          "variants": {
-            "none": {
-              "reasoningEffort": "none"
-            },
-            "low": {
-              "reasoningEffort": "low"
-            },
-            "medium": {
-              "reasoningEffort": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh"
-            }
-          }
-        },
-        "glm-4.7-flash@q5_k_m": {
-          "name": "GLM 4.7 Flash@gguf-Q5_K_M",
           "variants": {
             "none": {
               "reasoningEffort": "none"
@@ -182,9 +157,9 @@
     },
     "llamabarn": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "LlamaBarn (llama.cpp server)",
+      "name": "LlamaBarn",
       "options": {
-        "baseURL": "http://localhost:2480"
+        "baseURL": "http://localhost:2276/v1"
       },
       "models": {
         "gemma-3-270m": {

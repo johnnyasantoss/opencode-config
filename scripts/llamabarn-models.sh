@@ -1,64 +1,68 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DRY_RUN=false
-RESET=false
+usage() {
+  cat << 'EOF'
+Usage: llamabarn-models.sh [--dry-run] [--reset] [-h]
 
-# Parse arguments
+Options:
+  --dry-run   Preview changes without modifying opencode.json
+  --reset     Replace models field with API response (don't merge)
+  -h, --help  Show this help message
+EOF
+}
+
+log() { echo "[$0] $*" >&2; }
+
+# Parse flags
+DRY_RUN=false RESET=false
 for arg in "$@"; do
   case "$arg" in
-    --dry-run)
-      DRY_RUN=true
-      ;;
-    --reset)
-      RESET=true
-      ;;
-    -h|--help)
-      echo "Usage: ${0##*/} [--dry-run] [--reset] [-h]"
-      echo ""
-      echo "Options:"
-      echo "  --dry-run   Preview changes without modifying opencode.json"
-      echo "  --reset     Replace models field with API response (don't merge)"
-      echo "  -h, --help  Show this help message"
-      exit 0
-      ;;
+    --dry-run) DRY_RUN=true ;;
+    --reset) RESET=true ;;
+    -h|--help) usage; exit 0 ;;
   esac
 done
 
-PROVIDER_JSON=$(curl -s http://localhost:2276/v1/models | jq '{
+log "Fetching models from LlamaBarn API..."
+API_RESPONSE=$(curl -sf http://localhost:2276/v1/models) || { log "ERROR: Failed to fetch from LlamaBarn API"; exit 1; }
+
+log "Processing $(echo "$API_RESPONSE" | jq '.data | length') models..."
+
+# Build provider JSON
+PROVIDER=$(echo "$API_RESPONSE" | jq '{
   provider: {
     llamabarn: {
       npm: "@ai-sdk/openai-compatible",
-      name: "LlamaBarn (llama.cpp server)",
-      options: {
-        baseURL: "http://localhost:2480"
-      },
-      models: (.data | map({
-        key: .id,
-        value: {
-          name: .id
-        }
-      }) | from_entries)
+      name: "LlamaBarn",
+      options: { baseURL: "http://localhost:2276/v1" },
+      models: (.data | map({ key: .id, value: { name: .id } }) | from_entries)
     }
   }
 }')
 
-# Extract just the models object
-MODELS_JSON=$(echo "$PROVIDER_JSON" | jq '.provider.llamabarn.models')
+MODELS=$(echo "$PROVIDER" | jq '.provider.llamabarn.models')
+MODEL_COUNT=$(echo "$MODELS" | jq 'length')
 
-if [[ "$DRY_RUN" == "true" ]]; then
-  if [[ "$RESET" == "true" ]]; then
-    jq --argjson models "$MODELS_JSON" '.provider.llamabarn.models = $models' opencode.json
+if $RESET; then
+  log "Reset mode: Replacing models with $MODEL_COUNT models from API"
+  if $DRY_RUN; then
+    log "[DRY-RUN] Would update opencode.json"
+    jq --argjson models "$MODELS" '.provider.llamabarn.models = $models' opencode.json
   else
-    node scripts/deep-merge.js opencode.json <(echo "$PROVIDER_JSON")
+    jq --argjson models "$MODELS" '.provider.llamabarn.models = $models' opencode.json > opencode.json.new
+    mv opencode.json.new opencode.json
+    log "✓ Updated opencode.json with $MODEL_COUNT models"
   fi
 else
-  if [[ "$RESET" == "true" ]]; then
-    jq --argjson models "$MODELS_JSON" '.provider.llamabarn.models = $models' opencode.json > opencode.json.new
-    mv opencode.json.new opencode.json
+  log "Merge mode: Merging $MODEL_COUNT models with existing config"
+  echo "$PROVIDER" > llamabarn-provider.json
+  if $DRY_RUN; then
+    log "[DRY-RUN] Would merge with opencode.json"
+    node scripts/deep-merge.js opencode.json <(echo "$PROVIDER")
   else
-    echo "$PROVIDER_JSON" > llamabarn-provider.json
     node scripts/deep-merge.js opencode.json llamabarn-provider.json > opencode.json.new
     mv opencode.json.new opencode.json
+    log "✓ Merged into opencode.json"
   fi
 fi
