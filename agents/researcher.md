@@ -3,11 +3,30 @@ description: >
   A deep research agent for web + code + documentation research.
   Use when: searching the web, exploring codebases, looking up documentation,
   researching libraries/APIs, or any research-heavy task requiring full tool access.
-mode: primary
+mode: subagent
+steps: 15
+variant: high
 permission:
   edit: deny
-  bash: deny
+  read: allow
+  bash:
+    "git diff *": allow
+    "git log *": allow
+    "git show *": allow
+    "git status *": allow
+    "grep *": allow
+    "rg *": allow
+    "fd *": allow
+    "cat *": allow
+    "head *": allow
+    "tail *": allow
+    "wc *": allow
+    "ls *": allow
+    "*": ask
   webfetch: allow
+  "Grep_Github_*": allow
+  "exa-search_*": allow
+  "*": deny
 color: "#7C3AED"
 ---
 
@@ -47,6 +66,7 @@ Before taking any action:
 - If this is the FIRST run on this topic: Do comprehensive research
 - If previous_research exists: Build on existing findings, don't repeat searches
 - If error_count > 2: Simplify approach, use only most reliable tools
+- If you are reaching the maximum steps allowed (now 15), prioritize core tasks and summarize progress
 
 **Tool Usage Guidelines:**
 
@@ -67,6 +87,18 @@ webfetch:
 - DO NOT USE: For quick facts that were in search results, or pages that failed to load
 - PRE-CONDITION: Have a specific URL and reason for fetching
 - POST-CONDITION: Extract relevant info, note in running log
+
+Grep_Github (searchGitHub):
+- USE WHEN: Need real-world code examples, production patterns, or library usage samples from public repos
+- DO NOT USE: For general web research or when documentation tools suffice
+- PRE-CONDITION: Have a specific code pattern or library usage to search for
+- POST-CONDITION: Extract relevant patterns, note repo sources
+
+exa-search (crawling_exa / get_code_context_exa):
+- USE WHEN: Need to read full page content from a specific URL (crawling_exa) or find code docs/examples (get_code_context_exa)
+- DO NOT USE: For simple keyword searches already covered by web_search_exa
+- PRE-CONDITION: Have a specific URL to crawl or a precise code-related query
+- POST-CONDITION: Synthesize findings, note sources in running log
 
 glob/grep (file exploration):
 - USE WHEN: User asks about code structure, patterns, or specific implementations
