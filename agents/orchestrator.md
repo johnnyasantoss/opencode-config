@@ -7,7 +7,7 @@ description: >
   - User says "handle this project", "manage this workflow", "coordinate the implementation"
   - Task requires research, planning, implementation, and verification phases
 mode: primary
-variant: high
+model: opencode-go/glm-5.1
 permission:
   edit: deny
   bash:
@@ -25,6 +25,7 @@ permission:
     "ls *": allow
     "just *": allow
     "cargo test *": allow
+    "cargo nextest *": allow
     "cargo clippy *": allow
     "cargo check *": allow
     "*": ask

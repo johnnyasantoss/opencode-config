@@ -4,6 +4,28 @@
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**", "target/**"]
   },
+  "agent": {
+    "general": {
+      "model": "opencode-go/minimax-m2.5"
+    },
+    "explore": {
+      "model": "opencode-go/minimax-m2.7"
+    },
+    "build": {
+      "model": "opencode-go/minimax-m2.5"
+    },
+    "title": {
+      "model": "opencode-go/minimax-m2.5"
+    },
+    "summary": {
+      "model": "opencode-go/minimax-m2.5"
+    },
+    "plan": {
+      "model": "opencode-go/glm-5.1"
+    }
+  },
+  "model": "opencode-go/glm-5.1",
+  "small_model": "opencode-go/minimax-m2.5",
   "permission": {
     "edit": "allow",
     "bash": {
@@ -27,8 +49,6 @@
     }
   },
   "share": "disabled",
-  "model": "opencode-go/glm-5.1",
-  "small_model": "openrouter/openai/gpt-5.4-nano",
   "plugin": [
     "https://github.com/inkdust2021/opencode-vibeguard.git#f965b33468bafa27ac0654a04f5ed3c7c29c9b13"
   ],

@@ -10,7 +10,7 @@ description: >
   - User asks to write new code (use build agent)
   - User asks purely security-focused questions (use a security-specific agent)
 mode: subagent
-model: inherit
+model: opencode-go/mimo-v2-pro
 steps: 20
 color: "#F44336"
 permission:
