@@ -1,0 +1,219 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "disabled_providers": [
+    "zen"
+  ],
+  "plugin": [
+    "https://github.com/inkdust2021/opencode-vibeguard.git#f965b33468bafa27ac0654a04f5ed3c7c29c9b13"
+  ],
+  "instructions": [
+    "CONTRIBUTING.md",
+    "docs/guidelines.md",
+    ".cursor/rules/*.md",
+    "CLAUDE.md",
+    "AGENTS.md"
+  ],
+  "mcp": {
+    "Context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "Grep Github": {
+      "oauth": {},
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    },
+    "exa-search": {
+      "oauth": {},
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,get_code_context_exa,crawling_exa,deep_researcher_start,deep_researcher_check"
+    }
+  },
+  "provider": {
+    "ollama": {
+      "models": {
+        "glm-4.7-flash": {
+          "name": "glm-4.7-flash"
+        },
+        "qwen3.5:9b": {
+          "name": "qwen3.5:9b"
+        }
+      },
+      "name": "Ollama",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      }
+    },
+    "openrouter": {
+      "models": {},
+      "options": {
+        "data_collection": "deny"
+      }
+    },
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio",
+      "options": {
+        "baseURL": "http://localhost:1234/v1"
+      },
+      "models": {
+        "google/gemma-4-26b-a4b": {
+          "name": "Gemma 4 26B A4B@gguf-Q6_K",
+          "variants": {
+            "none": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "qwen3.5-9b-claude-4.6-opus-reasoning-distilled-v2": {
+          "name": "Qwen3.5 9B@gguf-Q5_K_M",
+          "variants": {
+            "none": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "qwen3.5-9b": {
+          "name": "Qwen3.5 9B@gguf-Q5_K_M",
+          "variants": {
+            "none": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "glm-4.7-flash@?": {
+          "name": "GLM 4.7 Flash MXFP4 MoE@gguf-uknw",
+          "variants": {
+            "none": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "glm-4.7-flash@q5_k_m": {
+          "name": "GLM 4.7 Flash@gguf-Q5_K_M",
+          "variants": {
+            "none": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "qwen3.5-2b": {
+          "name": "Qwen3.5 2B@gguf-Q6_K",
+          "variants": {
+            "none": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        }
+      }
+    },
+    "llamabarn": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LlamaBarn (llama.cpp server)",
+      "options": {
+        "baseURL": "http://localhost:2480"
+      },
+      "models": {
+        "gemma-3-270m": {
+          "name": "gemma-3-270m"
+        },
+        "gemma-4-31b-q4": {
+          "name": "gemma-4-31b-q4"
+        },
+        "glm-4.7-flash": {
+          "name": "glm-4.7-flash"
+        },
+        "qwen-3.5-medium-27b": {
+          "name": "qwen-3.5-medium-27b"
+        },
+        "qwen-3.5-small-4b": {
+          "name": "qwen-3.5-small-4b"
+        }
+      }
+    }
+  },
+  "server": {
+    "cors": [
+      "http://localhost:4096",
+      "http://opencode-macpro.local:4096",
+      "https://macpro.sparrow-tet.ts.net/oc"
+    ],
+    "mdns": true,
+    "mdnsDomain": "opencode-macpro.local",
+    "hostname": "127.0.0.1",
+    "port": 4096
+  }
+}

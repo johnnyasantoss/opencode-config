@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "debug": true,
+  "placeholder_prefix": "__VG_PII_COPYPASTE_REF_",
+  "session": {
+    "ttl": "24h",
+    "max_mappings": 10000
+  },
+  "patterns": {
+    "regex": [
+      {
+        "pattern": "[sS][kK][-_]\\w{15,100}",
+        "category": "SECRET_KEY"
+      },
+      { "pattern": "[\\w-]*API_KEY[\\w-]*=[\\w-]+", "category": "API_KEY" },
+      {
+        "pattern": "gh[pousr]_\\w+",
+        "category": "GITHUB_TOKEN"
+      },
+      { "pattern": "AKIA[0-9A-Z]{16}", "category": "AWS_ACCESS_KEY" }
+    ],
+    "builtin": ["email", "china_phone", "china_id", "uuid", "ipv4", "mac"],
+    "exclude": ["example.com", "localhost", "127.0.0.1", "0.0.0.0"]
+  }
+}

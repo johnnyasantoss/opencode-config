@@ -1,0 +1,11 @@
+node_modules
+package.json
+bun.lock
+package-lock.json
+
+# secrets
+.env*
+keys/
+
+# Temp local provider files
+*-provider.json
