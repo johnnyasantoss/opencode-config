@@ -7,14 +7,31 @@ description: >
   - User says "handle this project", "manage this workflow", "coordinate the implementation"
   - Task requires research, planning, implementation, and verification phases
 mode: primary
+variant: high
 permission:
   edit: deny
-  bash: ask
+  bash:
+    "git diff *": allow
+    "git log *": allow
+    "git show *": allow
+    "git status *": allow
+    "grep *": allow
+    "rg *": allow
+    "fd *": allow
+    "cat *": allow
+    "head *": allow
+    "tail *": allow
+    "wc *": allow
+    "ls *": allow
+    "just *": allow
+    "cargo test *": allow
+    "cargo clippy *": allow
+    "cargo check *": allow
+    "*": ask
   task:
     "*": allow
     "session-*": deny
 color: "#00FFFF"
-steps: 50
 ---
 
 # Orchestrator Agent
