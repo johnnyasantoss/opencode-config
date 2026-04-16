@@ -36,7 +36,21 @@ PROVIDER=$(echo "$API_RESPONSE" | jq '{
       npm: "@ai-sdk/openai-compatible",
       name: "LlamaBarn",
       options: { baseURL: "http://localhost:2276/v1" },
-      models: (.data | map({ key: .id, value: { name: .id } }) | from_entries)
+      models: (.data | map(
+        (.status.args // [] | index("--ctx-size")) as $ctx_idx |
+        {
+          key: .id,
+          value: (if $ctx_idx != null then {
+            name: .id,
+            limit: {
+              context: (.status.args[$ctx_idx + 1] | tonumber),
+              output: (.status.args[$ctx_idx + 1] | tonumber)
+            }
+          } else {
+            name: .id
+          } end)
+        }
+      ) | from_entries)
     }
   }
 }')
