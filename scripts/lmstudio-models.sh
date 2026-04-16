@@ -41,8 +41,7 @@ PROVIDER=$(echo "$API_RESPONSE" | jq '{
         | map({
             key: .key, 
             value: {
-              name: ((.display_name | sub("\\s*\\(.*\\)$"; "")) + "@" + (.format // "uknw") + "-" + (.quantization.name // "uknw")),
-              variants: { none: { reasoningEffort: "none" }, low: { reasoningEffort: "low" }, medium: { reasoningEffort: "medium" }, high: { reasoningEffort: "high" }, xhigh: { reasoningEffort: "xhigh" } }
+              name: ((.display_name | sub("\\s*\\(.*\\)$"; "")) + "@" + (.format // "uknw") + "-" + (.quantization.name // "uknw"))
             }
           }) 
         | sort_by(.key)
