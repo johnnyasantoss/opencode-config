@@ -18,6 +18,7 @@ steps: 15
 permission:
   edit: allow
   bash:
+    "*": ask
     "git status *": allow
     "git log *": allow
     "git show *": allow
@@ -51,7 +52,6 @@ permission:
     "head *": allow
     "tail *": allow
     "ls *": allow
-    "*": ask
   task:
     "explore": allow
     "general": allow

@@ -11,6 +11,7 @@ model: opencode-go/glm-5.1
 permission:
   edit: deny
   bash:
+    "*": ask
     "git diff *": allow
     "git log *": allow
     "git show *": allow
@@ -28,7 +29,6 @@ permission:
     "cargo nextest *": allow
     "cargo clippy *": allow
     "cargo check *": allow
-    "*": ask
   task:
     "*": allow
     "session-*": deny

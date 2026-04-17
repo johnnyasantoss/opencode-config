@@ -10,6 +10,7 @@ permission:
   edit: deny
   read: allow
   bash:
+    "*": ask
     "git diff *": allow
     "git log *": allow
     "git show *": allow
@@ -22,7 +23,6 @@ permission:
     "tail *": allow
     "wc *": allow
     "ls *": allow
-    "*": ask
   webfetch: allow
   "Grep_Github_*": allow
   "exa-search_*": allow
