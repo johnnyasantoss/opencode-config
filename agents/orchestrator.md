@@ -7,7 +7,6 @@ description: >
   - User says "handle this project", "manage this workflow", "coordinate the implementation"
   - Task requires research, planning, implementation, and verification phases
 mode: primary
-model: opencode-go/glm-5.1
 permission:
   edit: deny
   bash:
@@ -235,7 +234,7 @@ Place in `.opencode/agents/`: name, description, model, tools, role, expertise, 
 ---
 name: [specialist]
 description: [when to invoke]
-model: sonnet
+model: inherit
 tools: [read, grep, glob]
 ---
 # Role: [what]

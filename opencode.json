@@ -21,10 +21,20 @@
       "model": "opencode-go/minimax-m2.5"
     },
     "plan": {
+      "model": "opencode-go/kimi-k2.6"
+    },
+    "git-master": {},
+    "orchestrator": {
+      "model": "opencode-go/kimi-k2.6"
+    },
+    "researcher": {
+      "model": "opencode-go/minimax-m2.7"
+    },
+    "review": {
       "model": "opencode-go/glm-5.1"
     }
   },
-  "model": "opencode-go/glm-5.1",
+  "model": "opencode-go/kimi-k2.6",
   "small_model": "opencode-go/minimax-m2.5",
   "permission": {
     "edit": "allow",

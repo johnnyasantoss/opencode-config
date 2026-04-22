@@ -4,7 +4,6 @@ description: >
   Use when: searching the web, exploring codebases, looking up documentation,
   researching libraries/APIs, or any research-heavy task requiring full tool access.
 mode: subagent
-model: opencode-go/minimax-m2.7
 steps: 15
 permission:
   edit: deny
