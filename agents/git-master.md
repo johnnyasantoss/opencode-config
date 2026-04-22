@@ -14,44 +14,50 @@ description: >
   - Code review (use review agent)
   - Research tasks (use researcher agent)
 mode: subagent
-steps: 15
+steps: 30
 permission:
   edit: allow
   bash:
     "*": ask
-    "git status *": allow
-    "git log *": allow
-    "git show *": allow
-    "git diff *": allow
+    "bun build *": allow
+    "cargo check *": allow
+    "cat *": allow
+    "cd *": allow
+    "fd *": allow
+    "git --no-pager log *": "allow"
+    "git absorb *": allow
+    "git blame *": allow
     "git branch --list *": allow
     "git branch -a *": allow
     "git branch -r *": allow
-    "git remote *": allow
-    "git fetch *": allow
-    "git reflog *": allow
-    "git rev-parse *": allow
-    "git for-each-ref *": allow
-    "git config --list*": allow
+    "git cherry *": allow
     "git config --get*": allow
-    "git stash list*": allow
-    "git stash show *": allow
-    "git blame *": allow
-    "git shortlog *": allow
+    "git config --list*": allow
+    "git describe *": allow
+    "git diff *": allow
+    "git fetch *": allow
+    "git for-each-ref *": allow
+    "git log *": allow
     "git ls-files *": allow
     "git ls-tree *": allow
-    "git cherry *": allow
-    "git describe *": allow
+    "git reflog *": allow
+    "git remote *": allow
+    "git rev-parse *": allow
+    "git shortlog *": allow
+    "git show *": allow
+    "git stash list*": allow
+    "git stash show *": allow
+    "git status *": allow
     "git tag -l *": allow
-    "git absorb *": allow
-    "man *": allow
-    "just *": allow
     "grep *": allow
-    "rg *": allow
-    "fd *": allow
-    "cat *": allow
     "head *": allow
-    "tail *": allow
+    "just *": allow
     "ls *": allow
+    "man *": allow
+    "rg *": allow
+    "tail *": allow
+    "tsc --noEmit *": allow
+    "zig build *": allow
   task:
     "explore": allow
     "general": allow
