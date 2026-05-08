@@ -41,8 +41,12 @@ PROVIDER=$(echo "$API_RESPONSE" | jq '{
         | map({
             key: .key, 
             value: {
-              name: ((.display_name | sub("\\s*\\(.*\\)$"; "")) + "@" + (.format // "uknw") + "-" + (.quantization.name // "uknw"))
-            }
+              name: ((.display_name | sub("\\s*\\(.*\\)$"; "")) + "@" + (.format // "uknw") + "-" + (.quantization.name // "uknw")),
+              limit: {
+                context: .max_context_length,
+                output: ([32768, .max_context_length] | min)
+              }
+            } + (if .capabilities.vision then {modalities: {input: ["image", "text"], output: ["text"]}} else {} end)
           }) 
         | sort_by(.key)
         | from_entries)
