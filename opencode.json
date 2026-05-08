@@ -6,36 +6,44 @@
   },
   "agent": {
     "general": {
-      "model": "opencode-go/minimax-m2.5"
+      "model": "opencode-go/minimax-m2.7"
     },
     "explore": {
-      "model": "opencode-go/minimax-m2.7"
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "high"
     },
     "build": {
-      "model": "opencode-go/minimax-m2.5"
-    },
-    "title": {
-      "model": "opencode-go/minimax-m2.5"
-    },
-    "summary": {
-      "model": "opencode-go/deepseek-v4-flash"
-    },
-    "plan": {
-      "model": "opencode-go/kimi-k2.6"
-    },
-    "git-master": {},
-    "orchestrator": {
-      "model": "opencode-go/kimi-k2.6"
-    },
-    "researcher": {
       "model": "opencode-go/minimax-m2.7"
     },
+    "title": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "low"
+    },
+    "summary": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "low"
+    },
+    "plan": {
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "max"
+    },
+    "git-master": {
+      "model": "opencode-go/kimi-k2.6"
+    },
+    "orchestrator": {
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "max"
+    },
+    "researcher": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "high"
+    },
     "review": {
-      "model": "opencode-go/glm-5.1"
+      "model": "opencode-go/kimi-k2.6"
     }
   },
-  "model": "opencode-go/kimi-k2.6",
-  "small_model": "opencode-go/minimax-m2.5",
+  "model": "opencode-go/deepseek-v4-pro",
+  "small_model": "opencode-go/minimax-m2.7",
   "permission": {
     "edit": "allow",
     "bash": {
