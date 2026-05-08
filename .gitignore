@@ -11,3 +11,6 @@ keys/
 
 # Temp local provider files
 *-provider.json
+
+# Offline config
+opencode.offline.json
