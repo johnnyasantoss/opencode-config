@@ -90,14 +90,7 @@
   },
   "provider": {
     "ollama": {
-      "models": {
-        "glm-4.7-flash": {
-          "name": "glm-4.7-flash"
-        },
-        "qwen3.5:9b": {
-          "name": "qwen3.5:9b"
-        }
-      },
+      "models": {},
       "name": "Ollama",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
@@ -118,7 +111,7 @@
       },
       "models": {
         "qwen3.5-2b": {
-          "name": "Qwen3.5 2B@gguf-Q6_K",
+          "name": "Qwen3.5 2B UD@gguf-Q4_K_XL",
           "limit": {
             "context": 262144,
             "output": 32768
@@ -181,25 +174,11 @@
         "baseURL": "http://localhost:2276/v1"
       },
       "models": {
-        "gemma-4-31b-q4": {
-          "name": "gemma-4-31b-q4",
+        "qwen-3.6-35b-a3b-q4": {
+          "name": "qwen-3.6-35b-a3b-q4",
           "limit": {
-            "context": 32768,
+            "context": 65536,
             "output": 32768
-          }
-        },
-        "qwen-3.5-medium-27b": {
-          "name": "qwen-3.5-medium-27b",
-          "limit": {
-            "context": 65536,
-            "output": 65536
-          }
-        },
-        "qwen-3.5-small-4b": {
-          "name": "qwen-3.5-small-4b",
-          "limit": {
-            "context": 65536,
-            "output": 65536
           }
         }
       }
