@@ -18,7 +18,7 @@
       "model": "opencode-go/minimax-m2.5"
     },
     "summary": {
-      "model": "opencode-go/minimax-m2.5"
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "plan": {
       "model": "opencode-go/kimi-k2.6"
@@ -45,6 +45,7 @@
       "git show *": "allow",
       "git status *": "allow",
       "git branch *": "allow",
+      "echo *": "allow",
       "grep *": "allow",
       "rg *": "allow",
       "fd *": "allow",
@@ -72,16 +73,16 @@
     "AGENTS.md"
   ],
   "mcp": {
-    "Context7": {
+    "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp"
     },
-    "Grep Github": {
+    "grep_github": {
       "oauth": {},
       "type": "remote",
       "url": "https://mcp.grep.app"
     },
-    "exa-search": {
+    "exa_search": {
       "oauth": {},
       "type": "remote",
       "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,get_code_context_exa,crawling_exa,deep_researcher_start,deep_researcher_check"
@@ -116,25 +117,56 @@
         "baseURL": "http://localhost:1234/v1"
       },
       "models": {
-        "gemma-4-31b-it": {
-          "name": "Gemma 4 31B Instruct UD@gguf-Q5_K_XL"
-        },
-        "glm-4.7-flash": {
-          "name": "GLM 4.7 Flash MXFP4 MoE@gguf-uknw"
-        },
         "qwen3.5-2b": {
-          "name": "Qwen3.5 2B@gguf-Q6_K"
+          "name": "Qwen3.5 2B@gguf-Q6_K",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["image", "text"],
+            "output": ["text"]
+          }
         },
-        "qwen3.5-9b-claude-4.6-opus-reasoning-distilled-v2": {
-          "name": "Qwen3.5 9B@gguf-Q5_K_M"
+        "qwen3.6-27b": {
+          "name": "Qwen3.6 27B UD@gguf-Q5_K_XL",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["image", "text"],
+            "output": ["text"]
+          }
+        },
+        "qwen3.6-27b-ud-mlx": {
+          "name": "Qwen3.6 27B UD@mlx-4bit",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["image", "text"],
+            "output": ["text"]
+          }
         },
         "qwen3.6-35b-a3b": {
           "name": "Qwen3.6 35B A3B UD@gguf-Q5_K_M",
           "limit": {
-            "context": 130000,
+            "context": 262144,
             "output": 32768
           },
-          "reasoning": true,
+          "modalities": {
+            "input": ["image", "text"],
+            "output": ["text"]
+          }
+        },
+        "qwen3.6-35b-a3b-ud-mlx": {
+          "name": "Qwen3.6 35B A3B UD@mlx-4bit",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
           "modalities": {
             "input": ["image", "text"],
             "output": ["text"]

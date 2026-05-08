@@ -13,9 +13,16 @@ mode: subagent
 steps: 20
 color: "#F44336"
 permission:
-  edit: deny
   read: allow
-  search: allow
+  edit: deny
+  glob: allow
+  grep: allow
+  webfetch: deny
+  question: allow
+  todowrite: allow
+  websearch: deny
+  lsp: deny
+  skill: deny
   bash:
     "*": ask
     "git diff *": allow
@@ -30,13 +37,11 @@ permission:
     "tail *": allow
     "wc *": allow
     "ls *": allow
-  webfetch: deny
-  "Grep_Github_*": allow
+  grep_github_*: allow
   task:
     "explore": allow
     "researcher": allow
     "*": deny
-  "*": ask
 ---
 
 You are a senior code reviewer specializing in thorough, multi-aspect code review.

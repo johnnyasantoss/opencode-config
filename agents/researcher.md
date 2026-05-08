@@ -6,8 +6,17 @@ description: >
 mode: subagent
 steps: 15
 permission:
-  edit: deny
   read: allow
+  edit: deny
+  glob: allow
+  grep: allow
+  webfetch: allow
+  question: allow
+  todowrite: allow
+  websearch: deny
+  lsp: deny
+  skill: deny
+  task: deny
   bash:
     "*": ask
     "git diff *": allow
@@ -22,10 +31,9 @@ permission:
     "tail *": allow
     "wc *": allow
     "ls *": allow
-  webfetch: allow
-  "Grep_Github_*": allow
-  "exa-search_*": allow
-  "*": deny
+  context7_*: allow
+  grep_github_*: allow
+  exa_search_*: allow
 color: "#7C3AED"
 ---
 
