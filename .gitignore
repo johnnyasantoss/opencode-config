@@ -14,3 +14,7 @@ keys/
 
 # Offline config
 opencode.offline.json
+
+# Notifier plugin state (turn counter, etc)
+opencode-notifier.json
+opencode-notifier-state.json

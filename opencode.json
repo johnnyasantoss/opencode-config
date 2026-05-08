@@ -71,7 +71,9 @@
   },
   "share": "disabled",
   "plugin": [
-    "https://github.com/inkdust2021/opencode-vibeguard.git#f965b33468bafa27ac0654a04f5ed3c7c29c9b13"
+    // always pin plugin versions
+    "https://github.com/inkdust2021/opencode-vibeguard.git#f965b33468bafa27ac0654a04f5ed3c7c29c9b13",
+    "@mohak34/opencode-notifier@0.2.4"
   ],
   "instructions": [
     "CONTRIBUTING.md",
