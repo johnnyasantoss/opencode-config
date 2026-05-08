@@ -252,7 +252,7 @@ When given a skill to convert, produce:
 
 ## Agent Prompt Design
 
-If the skill being converted involves creating agents, read this file before designing agent system prompts:
+For additional guidance on agents prompts:
 
 ```
 ~/.config/opencode/prompts/agent-prompts-best-practices.md

@@ -641,7 +641,7 @@ Do NOT use this skill when:
 
 ## Part 8: Agent Prompt Best Practices
 
-When creating skills that involve agent prompt design, read this file for established patterns:
+For additional guidance on agents prompts:
 
 ```
 ~/.config/opencode/prompts/agent-prompts-best-practices.md
