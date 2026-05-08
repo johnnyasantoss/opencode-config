@@ -153,23 +153,83 @@ model: inherit   # Use parent's model (recommended for subagents)
 
 Manage what actions an agent can take.
 
+**Permission levels:**
+- `allow` — Execute without approval
+- `ask` — Prompt for approval before running
+- `deny` — Disable the tool entirely
+
+**How permission resolution works (critical — read this):**
+
+OpenCode flattens the permission object into a rule array preserving declaration order, then uses **`findLast()`** — the **last matching rule wins**. This means **order matters**:
+
 ```yaml
+# BAD: catch-all before specific allow → specific allow wins (unexpected)
 permission:
-  edit: deny          # All edits denied
-  bash: ask           # Bash requires approval
-  webfetch: deny      # No web fetching
-  skill:
-    "*": deny
-    "code-review": allow
-  task:
-    "*": deny
-    "explore": allow
+  read:
+    "*": deny           # Rule A
+    "docs/**": allow    # Rule B (wins for docs/ — fine, but confusing)
+    "game_docs/**": allow  # Rule C (wins for game_docs/ — fine)
+
+# GOOD: specific allows first, catch-all last
+permission:
+  read:
+    "docs/**": allow    # Rule A (wins for docs/)
+    "game_docs/**": allow  # Rule B (wins for game_docs/)  
+    "*": deny           # Rule C (wins for everything else)
 ```
 
-**Permission levels:**
-- `ask` — Prompt for approval before running
-- `allow` — Allow without approval
-- `deny` — Disable the tool entirely
+Since `findLast()` evaluates ALL rules (not just one key), a top-level `"*": deny` placed last will override every permission not explicitly allowed. Place it at the **very end** of the permission block if used.
+
+**Valid permission keys:**
+
+| Key | Tools it gates |
+|-----|----------------|
+| `read` | `read` |
+| `edit` | `write`, `edit`, `apply_patch` |
+| `glob` | `glob` |
+| `grep` | `grep` |
+| `bash` | `bash` |
+| `task` | `task` (subagent spawning) |
+| `skill` | `skill` |
+| `webfetch` | `webfetch` |
+| `websearch` | `websearch` |
+| `lsp` | `lsp` |
+| `question` | `question` |
+| `todowrite` | `todowrite`, `todoread` |
+| `external_directory` | Any tool touching paths outside worktree |
+| `doom_loop` | Recovery prompts on repeated tool calls |
+
+Any key not in this list (e.g. `search`) is **silently ignored**.
+
+**MCP tool permissions:**
+
+MCP server tools are registered as `{server_name}_{tool_name}`. Use the exact server name from `opencode.json` as the prefix with a wildcard:
+
+```yaml
+# In opencode.json, server named "context7"
+# In agent: match all tools from that MCP server
+permission:
+  context7_*: allow
+```
+
+```yaml
+# Multiple MCP servers — explicit per-server wildcards
+permission:
+  context7_*: allow          # All Context7 tools
+  grep_github_*: allow       # All Grep Github tools
+  exa_search_*: allow        # All exa-search tools
+```
+
+**Catch-all `"*": deny` — common pitfall:**
+
+Using `"*": deny` at the end blocks ALL tools not explicitly allowed before it. You must explicitly list every tool the agent needs, including:
+
+- `question: allow` — so the agent can ask you clarifying questions
+- `todowrite: allow` — so the agent can track progress with todo lists
+- `glob: allow` / `grep: allow` — for file exploration
+- All MCP tool wildcards
+
+Without these, the agent prompt may instruct tool use that silently fails.
 
 **Bash glob patterns:**
 ```yaml
@@ -182,6 +242,8 @@ permission:
     "rm *": deny          # Never allow deletion
 ```
 
+Patterns for `bash` use simple wildcards (`*` = any chars, `?` = one char). Rules are evaluated by pattern match, **last matching rule wins** — so put `"*": ask` first and specific rules after.
+
 **Task permissions** (controlling subagent invocation):
 ```yaml
 permission:
@@ -189,6 +251,24 @@ permission:
     "*": deny             # No subagent invocation
     "explore": allow      # Only explore subagent
     "code-review-*": ask  # Ask for code-review agents
+```
+
+Known limitation: `task` deny rules are checked at tool-description time, not always enforced at execution time in older versions (see issues #11324, #21333).
+
+**Quick reference — common permission keys for a read-only agent:**
+```yaml
+permission:
+  read: allow
+  edit: deny
+  glob: allow
+  grep: allow
+  webfetch: allow
+  question: allow
+  todowrite: allow
+  websearch: deny
+  lsp: deny
+  skill: deny
+  task: deny
 ```
 
 #### `steps`
@@ -498,6 +578,42 @@ permission:
     "code-review-*": allow
 ```
 
+### Research Agent (with MCP tools)
+
+```yaml
+permission:
+  read: allow
+  edit: deny
+  glob: allow
+  grep: allow
+  webfetch: allow
+  question: allow
+  todowrite: allow
+  websearch: deny
+  lsp: deny
+  skill: deny
+  task: deny
+  bash:
+    "*": ask
+    "git diff *": allow
+    "git log *": allow
+    "git show *": allow
+    "git status *": allow
+    "grep *": allow
+    "rg *": allow
+    "fd *": allow
+    "cat *": allow
+    "head *": allow
+    "tail *": allow
+    "wc *": allow
+    "ls *": allow
+  context7_*: allow
+  grep_github_*: allow
+  exa_search_*: allow
+```
+
+Note: explicitly list every MCP server's tool wildcard before any implicit fallback. MCP tool names follow the pattern `{server_name}_{tool_name}` where `{server_name}` is the key in `opencode.json`'s `mcp` object (e.g., `context7` → `context7_resolve-library-id`).
+
 ---
 
 ## Part 7: Validation Rules
@@ -744,14 +860,30 @@ temperature: 0.0-1.0
 top_p: 0.0-1.0
 steps: [number]
 permission:
+  # Simple (shorthand)
+  read: ask|allow|deny
   edit: ask|allow|deny
+  glob: ask|allow|deny
+  grep: ask|allow|deny
   bash: ask|allow|deny|{pattern: level}
   webfetch: ask|allow|deny
-  skill: {pattern: level}
-  task: {pattern: level}
+  websearch: ask|allow|deny
+  question: ask|allow|deny
+  todowrite: ask|allow|deny
+  lsp: ask|allow|deny
+  skill: ask|allow|deny|{pattern: level}
+  task: ask|allow|deny|{pattern: level}
+  external_directory: ask|allow|deny|{pattern: level}
+  doom_loop: ask|allow|deny
+  # MCP tool wildcards (server_name from opencode.json mcp key)
+  context7_*: ask|allow|deny
+  grep_github_*: ask|allow|deny
+  exa_search_*: ask|allow|deny
 color: "#hex"|theme-color
 hidden: true|false
 disable: true|false
 prompt: "{file:path}"
 ---
 ```
+
+Note: Permissions use `findLast()` evaluation — last matching rule wins. List specific allows before catch-all patterns. MCP tool names follow `{server_name}_{tool_name}` where `{server_name}` is the key in `opencode.json`'s `mcp` object.
