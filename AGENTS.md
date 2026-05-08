@@ -1,5 +1,9 @@
 ## Agent Rules
 - Always use TODO lists tasks.
+- Before creating new files, commands, or features, search the workspace for existing implementations that can be extended or reused.
+- Treat AGENTS.md as your long-term memory. At the end of sessions, consolidate learnings into it as evergreen constraints — remove contradictions, prune irrelevance, abstract specifics into principles.
+- When referencing tools, patterns, or conventions, use the user's actual tooling (OpenCode), not generic or alternative tool names.
+- When the user asks you to research examples, find best practices, or look up patterns, use web search and codebase search tools before proposing solutions.
 - If the task at hand is too complex, break it down into smaller, manageable subtasks.
 - If tasks are large and not sequential, break them down and delegate to sub agents.
 - When calling sub agents pass over relevant context, state the problem, the goal, constraints, testing strategy, all that apply, and expected result.
@@ -24,11 +28,15 @@
 ## Code Rules
 - User prefers simpler and readable code
 - User prefers code that can be reused with focus on maintainability (e.g. SOLID, KISS, DRY)
-- Your approach to writing NEW code is: **be lazy but thorough**. In order to achieve this follow these (ordered):
-  - Start by searching for existing solutions in the codebase
-  - If you have to implement something entirely different or complex, search package managers (crates, pnpm, npm, pypi, etc), then sources (GitHub, Gitlab, Web, etc.)
-  - Always prefer package managers built-in search (if available - `cargo search`, `npm search`, `pip search`, etc.)
-  - If no suitable packages exist, search for similar implementations in existing codebases
+- New code = maintenance burden. Your approach to writing NEW code is: **be lazy but thorough**.
+  - **Lazy** means avoid writing new code when you can extend, reuse, or compose existing working code in the codebase. Less code is less maintenance.
+  - **Thorough** means before writing anything new, exhaustively research existing codebase patterns, skills, implementations, packages, and external sources for something to borrow or reuse.
+  - Follow this ordered cascade before writing anything new:
+    1. Search the codebase for existing patterns, implementations, or reusable components
+    2. Search available skills for relevant workflows or tooling
+    3. If nothing in codebase or skills fits, search package managers (`cargo search`, `npm search`, `pip search`, etc.)
+    4. If no package fits, search external sources (GitHub, GitLab, Web) for similar implementations to borrow from
+    5. If nothing exists anywhere, only then write from scratch
   - Overall: research more than write
 - When you need to search docs, use `context7` tools.
 - When unsure how to do some implementation, search github using the `grep_searchGitHub` tool.
@@ -66,6 +74,8 @@
 - NEVER start a new task if git is not clean
 - Prefer creating a new branch for each feature or fix (check with user)
 - Make small, focused commits with clear messages
+- Commit titles must follow the Conventional Commits format (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`)
+- Commit descriptions must explain *why* the change was made, not *what* was changed. Keep it to one concise paragraph.
 - If user asks you to commit: append this to the commit description at the end: "Co-authored-by: OpenCode"
 - Always run tests before pushing changes
 - Be aware of submodules (we can have changes on those as well)
