@@ -6,14 +6,16 @@
   },
   "agent": {
     "general": {
-      "model": "opencode-go/minimax-m2.7"
-    },
-    "explore": {
       "model": "opencode-go/deepseek-v4-flash",
       "variant": "high"
     },
+    "explore": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "medium"
+    },
     "build": {
-      "model": "opencode-go/minimax-m2.7"
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "high"
     },
     "title": {
       "model": "opencode-go/deepseek-v4-flash",
@@ -23,12 +25,16 @@
       "model": "opencode-go/deepseek-v4-flash",
       "variant": "low"
     },
+    "compaction": {
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "high"
+    },
     "plan": {
       "model": "opencode-go/deepseek-v4-pro",
       "variant": "max"
     },
     "git-master": {
-      "model": "opencode-go/kimi-k2.6"
+      "model": "opencode-go/mimo-v2.5-pro"
     },
     "orchestrator": {
       "model": "opencode-go/deepseek-v4-pro",
@@ -36,14 +42,14 @@
     },
     "researcher": {
       "model": "opencode-go/deepseek-v4-flash",
-      "variant": "high"
+      "variant": "medium"
     },
     "review": {
       "model": "opencode-go/kimi-k2.6"
     }
   },
   "model": "opencode-go/deepseek-v4-pro",
-  "small_model": "opencode-go/minimax-m2.7",
+  "small_model": "opencode-go/deepseek-v4-flash",
   "permission": {
     "edit": "allow",
     "bash": {
