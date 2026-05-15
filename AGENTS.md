@@ -2,7 +2,7 @@
 - Always use TODO lists tasks.
 - Before creating new files, commands, or features, search the workspace for existing implementations that can be extended or reused.
 - Treat AGENTS.md as your long-term memory. At the end of sessions, consolidate learnings into it as evergreen constraints — remove contradictions, prune irrelevance, abstract specifics into principles.
-- When referencing tools, patterns, or conventions, use the user's actual tooling (OpenCode), not generic or alternative tool names.
+- When referencing tools, patterns, or conventions, use the user's actual tooling (OpenCode/Codex), not generic or alternative tool names.
 - When the user asks you to research examples, find best practices, or look up patterns, use web search and codebase search tools before proposing solutions.
 - If the task at hand is too complex, break it down into smaller, manageable subtasks.
 - If tasks are large and not sequential, break them down and delegate to sub agents.
@@ -76,7 +76,6 @@
 - Make small, focused commits with clear messages
 - Commit titles must follow the Conventional Commits format (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`)
 - Commit descriptions must explain *why* the change was made, not *what* was changed. Keep it to one concise paragraph.
-- If user asks you to commit: append this to the commit description at the end: "Co-authored-by: OpenCode"
 - Always run tests before pushing changes
 - Be aware of submodules (we can have changes on those as well)
 
