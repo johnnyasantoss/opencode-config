@@ -16,7 +16,10 @@ const deepMerge = (target, source) => {
   return result;
 };
 
-const main = JSON.parse(require('fs').readFileSync(process.argv[2], 'utf8'));
+const stripComments = (text) => text.replace(/^\s*\/\/.*$/gm, '');
+const readJson = (path) => JSON.parse(stripComments(require('fs').readFileSync(path, 'utf8')));
+
+const main = readJson(process.argv[2]);
 const patch = JSON.parse(require('fs').readFileSync(process.argv[3], 'utf8'));
 const merged = deepMerge(main, patch);
 console.log(JSON.stringify(merged, null, 2));

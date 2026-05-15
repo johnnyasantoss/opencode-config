@@ -57,13 +57,15 @@ PROVIDER=$(echo "$API_RESPONSE" | jq '{
 MODELS=$(echo "$PROVIDER" | jq '.provider.lmstudio.models')
 MODEL_COUNT=$(echo "$MODELS" | jq 'length')
 
+read_jsonc() { local file="$1"; shift; sed '/^[[:space:]]*\/\//d' "$file" | jq "$@"; }
+
 if $RESET; then
   log "Reset mode: Replacing models with $MODEL_COUNT models from API"
   if $DRY_RUN; then
     log "[DRY-RUN] Would update opencode.json"
-    jq --argjson models "$MODELS" '.provider.lmstudio.models = $models' opencode.json
+    read_jsonc opencode.json --argjson models "$MODELS" '.provider.lmstudio.models = $models'
   else
-    jq --argjson models "$MODELS" '.provider.lmstudio.models = $models' opencode.json > opencode.json.new
+    read_jsonc opencode.json --argjson models "$MODELS" '.provider.lmstudio.models = $models' > opencode.json.new
     mv opencode.json.new opencode.json
     log "✓ Updated opencode.json with $MODEL_COUNT models"
   fi
