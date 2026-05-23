@@ -211,11 +211,12 @@
     "cors": [
       "http://localhost:4096",
       "http://opencode-macpro.local:4096",
-      "https://macpro.sparrow-tet.ts.net/oc"
+      "https://macpro.sparrow-tet.ts.net"
     ],
     "mdns": true,
     "mdnsDomain": "opencode-macpro.local",
     "hostname": "127.0.0.1",
-    "port": 4096
+    "port": 4096,
+    "password": "{file:./keys/oc_pass}"
   }
 }
