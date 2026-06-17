@@ -1,5 +1,5 @@
 ---
-name: Agent Creator
+name: agent-creator
 description: This skill should be used when the user asks to "create an agent", "add an agent", "write a subagent", "agent frontmatter", "when to use description", "agent examples", "agent tools", "agent colors", "autonomous agent", or needs guidance on agent structure, triggering conditions, or agent development best practices for OpenCode.
 version: 0.3.0
 ---

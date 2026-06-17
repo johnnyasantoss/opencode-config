@@ -26,8 +26,8 @@ Use this skill when:
 - User wants to execute bash commands within commands
 
 Do NOT use this skill when:
-- User is asking about agents (see Agent Development skill)
-- User is building MCP servers (see MCP Integration skill)
+- User is asking about agents (see agent-development skill)
+- User is building MCP servers (see mcp-integration skill)
 - Task is simply invoking an existing command
 
 ## Command Basics
