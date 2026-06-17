@@ -89,30 +89,34 @@
     "AGENTS.md"
   ],
   "mcp": {
-    "context7": {
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {file:./keys/github_pat}",
+        "X-MCP-Toolsets": "context,repos,issues,pull_requests,actions,code_security,discussions,labels,projects,secret_protection,security_advisories,orgs,users,git"
+      }
+    },
+    "code-docs-context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp"
     },
-    "grep_github": {
+    "grep-github": {
       "oauth": {},
       "type": "remote",
       "url": "https://mcp.grep.app"
     },
-    "exa_search": {
+    "exa-web-search": {
       "oauth": {},
       "type": "remote",
       "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,get_code_context_exa,crawling_exa,deep_researcher_start,deep_researcher_check"
+    },
+    "repo-info-deepwiki": {
+      "type": "remote",
+      "url": "https://mcp.deepwiki.com/mcp"
     }
   },
   "provider": {
-    "ollama": {
-      "models": {},
-      "name": "Ollama",
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "baseURL": "http://127.0.0.1:11434/v1"
-      }
-    },
     "openrouter": {
       "models": {},
       "options": {
@@ -126,8 +130,8 @@
         "baseURL": "http://localhost:1234/v1"
       },
       "models": {
-        "qwen3.6-27b": {
-          "name": "Qwen3.6 27B UD@gguf-Q5_K_XL",
+        "gemma-4-12b-it-qat": {
+          "name": "Gemma 4 12B Instruct QAT UD@gguf-Q4_K_XL",
           "limit": {
             "context": 262144,
             "output": 32768
@@ -137,8 +141,8 @@
             "output": ["text"]
           }
         },
-        "qwen3.6-27b-ud-mlx": {
-          "name": "Qwen3.6 27B UD@mlx-4bit",
+        "johnnyasantoss/nex-n2-mini": {
+          "name": "Nex N2 Mini 256x2.6B@gguf-Q4_K_M",
           "limit": {
             "context": 262144,
             "output": 32768
@@ -148,60 +152,51 @@
             "output": ["text"]
           }
         },
-        "qwen3.6-35b-a3b": {
-          "name": "Qwen3.6 35B A3B UD@gguf-Q5_K_M",
-          "limit": {
-            "context": 262144,
-            "output": 32768
-          },
-          "modalities": {
-            "input": ["image", "text"],
-            "output": ["text"]
-          }
-        },
-        "qwen3.6-35b-a3b-mtp": {
-          "name": "Qwen3.6 35B A3B UD@gguf-Q5_K_M",
-          "limit": {
-            "context": 262144,
-            "output": 32768
-          },
-          "modalities": {
-            "input": ["image", "text"],
-            "output": ["text"]
-          }
-        },
-        "qwen3.6-35b-a3b-ud-mlx": {
-          "name": "Qwen3.6 35B A3B UD@mlx-4bit",
-          "limit": {
-            "context": 262144,
-            "output": 32768
-          },
-          "modalities": {
-            "input": ["image", "text"],
-            "output": ["text"]
-          }
-        }
-      }
-    },
-    "llamabarn": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "LlamaBarn",
-      "options": {
-        "baseURL": "http://localhost:2276/v1"
-      },
-      "models": {
-        "qwen-3.5-small-4b": {
-          "name": "qwen-3.5-small-4b",
-          "limit": {
-            "context": 65536,
-            "output": 32768
-          }
-        },
-        "qwen-3.6-35b-a3b-q4": {
-          "name": "qwen-3.6-35b-a3b-q4",
+        "mellum2-12b-a2.5b-thinking_moe": {
+          "name": "Mellum2 12B A2.5B Thinking MXFP4 MoE@gguf-uknw",
           "limit": {
             "context": 131072,
             "output": 32768
+          }
+        },
+        "mlx-community/nex-n2-mini": {
+          "name": "Nex N2 Mini@mlx-5bit",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["image", "text"],
+            "output": ["text"]
+          }
+        },
+        "qwen3.6-28b-reap20-a3b": {
+          "name": "Qwen3.6 28B REAP20 A3B@gguf-Q4_K_M",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        },
+        "qwopus3.6-27b-v2-mtp": {
+          "name": "Qwopus3.6 27B v2 MTP@gguf-Q4_K_M",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["image", "text"],
+            "output": ["text"]
+          }
+        },
+        "qwopus3.6-35b-a3b-v1-mtp": {
+          "name": "Qwopus3.6 35B A3B v1 MTP@gguf-Q4_K_M",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["image", "text"],
+            "output": ["text"]
           }
         }
       }
