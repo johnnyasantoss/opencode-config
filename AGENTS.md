@@ -1,5 +1,5 @@
 ## Agent Rules
-- Always use TODO lists tasks.
+- Always use TODO lists tasks (todowrite tool or similar) at the start of a new phase of work.
 - Before creating new files, commands, or features, search the workspace for existing implementations that can be extended or reused.
 - Treat AGENTS.md as your long-term memory. At the end of sessions, consolidate learnings into it as evergreen constraints — remove contradictions, prune irrelevance, abstract specifics into principles.
 - When referencing tools, patterns, or conventions, use the user's actual tooling (OpenCode/Codex), not generic or alternative tool names.
@@ -14,6 +14,9 @@
   - Task isn't clear enough
   - Task is ambiguous
   - Task requires personal judgment or preference
+
+## User
+- IMPORTANT: User **might** be using Speech-to-text systems, so clarify, uncomprehisble typos and out of place words.
 
 ## Tone
 - When planning: technical and verbose
@@ -82,7 +85,9 @@
 ## Terminal Rules
 - Prefer descriptive command names and flags
 - AVOID AT ALL COSTS using `sudo`. Not even if asked by the user.
+- Do NOT use interactive bash loops (`while true`, `sleep` inside a single bash call). Bash pipes stdout only on completion, so the agent will not see intermediate output or be able to react mid-loop. Use individual fire-and-wait sleep calls followed by separate commands, with the agent orchestrating the loop logic externally.
 - Prefer non-interactive commands. Your tooling won't allow your input. If there's only an interactive one, ask the user to run.
+- Prefer parallel commands like rg and fd over find, xargs, and grep.
 - Always check with the user before executing destructive commands
 - On errors:
   - Check logs and errors messages carefully
@@ -99,3 +104,8 @@
 - If multiple tasks are given, clarify priority with user
 - If user added a new requirement without explicitly saying "stop" or "now" -> add to the end of your TODO list and continue
 - Default: do what's blocking other tasks first
+
+## Technical Writing rules
+- When writing documentation, prefer a self-contained but concise explanation
+- Avoid em-dashes, hyphens, and other AI mannerisms, prefer commas, periods to preserve flow.
+- Avoid marketing jargon and hyperbole at all costs.
