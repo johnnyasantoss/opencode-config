@@ -4,6 +4,7 @@
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**", "target/**"]
   },
+  "formatter": true,
   "agent": {
     "general": {
       "model": "opencode-go/deepseek-v4-flash",
