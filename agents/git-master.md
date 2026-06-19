@@ -20,35 +20,34 @@ permission:
   bash:
     "*": ask
     "bun build *": allow
-    "cargo check *": allow
+    "cargo check*": allow
     "cat *": allow
     "cd *": allow
     "fd *": allow
-    "git --no-pager log *": "allow"
-    "git absorb *": allow
+    "git --no-pager log*": "allow"
+    "git absorb*": allow
     "git blame *": allow
     "git branch --list *": allow
-    "git branch -a *": allow
-    "git branch -r *": allow
+    "git branch -a*": allow
+    "git branch -r*": allow
     "git cherry *": allow
     "git config --get*": allow
     "git config --list*": allow
     "git describe *": allow
-    "git diff *": allow
-    "git fetch *": allow
-    "git for-each-ref *": allow
-    "git log *": allow
-    "git ls-files *": allow
-    "git ls-tree *": allow
-    "git reflog *": allow
-    "git remote *": allow
-    "git rev-parse *": allow
-    "git shortlog *": allow
-    "git show *": allow
+    "git diff*": allow
+    "git fetch*": allow
+    "git log*": allow
+    "git ls-files*": allow
+    "git ls-tree*": allow
+    "git reflog*": allow
+    "git remote*": allow
+    "git rev-parse*": allow
+    "git shortlog*": allow
+    "git show*": allow
     "git stash list*": allow
-    "git stash show *": allow
-    "git status *": allow
-    "git tag -l *": allow
+    "git stash show*": allow
+    "git status*": allow
+    "git tag -l*": allow
     "grep *": allow
     "head *": allow
     "just *": allow
