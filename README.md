@@ -89,8 +89,6 @@ Dependency: `@opencode-ai/plugin` v1.4.3
 
 - [`opencode-vibeguard`](https://github.com/inkdust2021/opencode-vibeguard):
   External plugin. Redacts sensitive strings before sending to LLM providers.
-- `@mohak34/opencode-notifier`: External plugin. Desktop notifications for
-  session events (permission requests, completions, errors, questions).
 - `plugins/dotenv-protection.ts`: Local plugin. Blocks the read tool and
   bash commands from accessing `.env` files.
 - `plugins/rtk.ts`: Local plugin. Intercepts bash commands and rewrites
@@ -114,8 +112,7 @@ Configured in `opencode.json`:
 ## .gitignore
 
 Ignores generated/locally-sensitive files: `node_modules/`, `.env*`, `keys/`,
-OS files, provider JSON snapshots, offline config variant, and notifier plugin
-state.
+OS files, provider JSON snapshots, and offline config variant.
 
 ## Setup
 
