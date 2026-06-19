@@ -6,7 +6,7 @@ usage() {
 Usage: lmstudio-models.sh [--dry-run] [--reset] [-h]
 
 Options:
-  --dry-run   Preview changes without modifying opencode.json
+  --dry-run   Preview changes without modifying opencode.jsonc
   --reset     Replace models field with API response (don't merge)
   -h, --help  Show this help message
 EOF
@@ -62,22 +62,22 @@ read_jsonc() { local file="$1"; shift; sed '/^[[:space:]]*\/\//d' "$file" | jq "
 if $RESET; then
   log "Reset mode: Replacing models with $MODEL_COUNT models from API"
   if $DRY_RUN; then
-    log "[DRY-RUN] Would update opencode.json"
-    read_jsonc opencode.json --argjson models "$MODELS" '.provider.lmstudio.models = $models'
+    log "[DRY-RUN] Would update opencode.jsonc"
+    read_jsonc opencode.jsonc --argjson models "$MODELS" '.provider.lmstudio.models = $models'
   else
-    read_jsonc opencode.json --argjson models "$MODELS" '.provider.lmstudio.models = $models' > opencode.json.new
-    mv opencode.json.new opencode.json
-    log "✓ Updated opencode.json with $MODEL_COUNT models"
+    read_jsonc opencode.jsonc --argjson models "$MODELS" '.provider.lmstudio.models = $models' > opencode.jsonc.new
+    mv opencode.jsonc.new opencode.jsonc
+    log "✓ Updated opencode.jsonc with $MODEL_COUNT models"
   fi
 else
   log "Merge mode: Merging $MODEL_COUNT models with existing config"
   echo "$PROVIDER" > lmstudio-provider.json
   if $DRY_RUN; then
-    log "[DRY-RUN] Would merge with opencode.json"
-    node scripts/deep-merge.js opencode.json <(echo "$PROVIDER")
+    log "[DRY-RUN] Would merge with opencode.jsonc"
+    node scripts/deep-merge.js opencode.jsonc <(echo "$PROVIDER")
   else
-    node scripts/deep-merge.js opencode.json lmstudio-provider.json > opencode.json.new
-    mv opencode.json.new opencode.json
-    log "✓ Merged into opencode.json"
+    node scripts/deep-merge.js opencode.jsonc lmstudio-provider.json > opencode.jsonc.new
+    mv opencode.jsonc.new opencode.jsonc
+    log "✓ Merged into opencode.jsonc"
   fi
 fi
