@@ -7,7 +7,7 @@
   "formatter": true,
   "agent": {
     "general": {
-      "model": "opencode-go/deepseek-v4-flash",
+      "model": "opencode-go/mimo-v2.5",
       "variant": "high"
     },
     "explore": {
@@ -15,7 +15,7 @@
       "variant": "medium"
     },
     "build": {
-      "model": "opencode-go/deepseek-v4-flash",
+      "model": "opencode-go/mimo-v2.5",
       "variant": "high"
     },
     "title": {
@@ -31,14 +31,14 @@
       "variant": "high"
     },
     "plan": {
-      "model": "opencode-go/deepseek-v4-pro",
+      "model": "opencode-go/mimo-v2.5-pro",
       "variant": "max"
     },
     "git-master": {
       "model": "opencode-go/mimo-v2.5-pro"
     },
     "orchestrator": {
-      "model": "opencode-go/deepseek-v4-pro",
+      "model": "opencode-go/mimo-v2.5-pro",
       "variant": "max"
     },
     "researcher": {
@@ -46,11 +46,12 @@
       "variant": "medium"
     },
     "review": {
-      "model": "opencode-go/kimi-k2.6"
+      "model": "opencode-go/glm-5.2",
+      "variant": "xhigh"
     }
   },
-  "model": "opencode-go/deepseek-v4-pro",
-  "small_model": "opencode-go/deepseek-v4-flash",
+  "model": "opencode-go/mimo-v2.5-pro",
+  "small_model": "opencode-go/mimo-v2.5",
   "permission": {
     "edit": "allow",
     "bash": {
