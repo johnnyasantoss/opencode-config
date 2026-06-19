@@ -88,6 +88,12 @@
 - Do NOT use interactive bash loops (`while true`, `sleep` inside a single bash call). Bash pipes stdout only on completion, so the agent will not see intermediate output or be able to react mid-loop. Use individual fire-and-wait sleep calls followed by separate commands, with the agent orchestrating the loop logic externally.
 - Prefer non-interactive commands. Your tooling won't allow your input. If there's only an interactive one, ask the user to run.
 - Prefer parallel commands like rg and fd over find, xargs, and grep.
+- When running long or async commands, ensure they are non-blocking and monitor their status without blocking the main execution flow.
+  - Monitor background jobs, commands using `sleep` as a tool keep actively working
+  - Use `jobs`, `ps`, or similar tools to check job status
+  - Your maximum wait time should be reasonable based on expected time to finish the waited command. Always think about this when sleeping.
+  - !IMPORTANT: Cap wait time at 290s to avoid bursting KV cache on inference.
+  - Better to wait for more turns shorter periods than to overshoot.
 - Always check with the user before executing destructive commands
 - On errors:
   - Check logs and errors messages carefully
