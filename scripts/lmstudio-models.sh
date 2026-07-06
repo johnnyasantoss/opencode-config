@@ -6,7 +6,7 @@ usage() {
 Usage: lmstudio-models.sh [--dry-run] [--reset] [-h]
 
 Options:
-  --dry-run   Preview changes without modifying opencode.jsonc
+  --dry-run   Preview changes without modifying config
   --reset     Replace models field with API response (don't merge)
   -h, --help  Show this help message
 EOF
@@ -24,22 +24,42 @@ for arg in "$@"; do
   esac
 done
 
-log "Fetching models from LM Studio API..."
-API_RESPONSE=$(curl -sf http://localhost:1234/api/v1/models) || { log "ERROR: Failed to fetch from LM Studio API"; exit 1; }
+# Find config file (prefer .jsonc, fall back to .json)
+CONFIG_FILE=""
+for f in opencode.jsonc opencode.json; do
+  if [[ -f "$f" ]]; then CONFIG_FILE="$f"; break; fi
+done
+[[ -z "$CONFIG_FILE" ]] && { log "ERROR: No opencode.jsonc or opencode.json found"; exit 1; }
 
-log "Processing $(echo "$API_RESPONSE" | jq '.models | length') models..."
+# Read JSONC: strips // comments (inline + whole-line) and trailing commas
+read_jsonc() {
+  local file="$1"; shift
+  sed -e 's|\([[:space:]]\)//.*|\1|' \
+      -e 's|^[[:space:]]*//.*||' \
+      -e ':a' -e 's|,\([[:space:]]*[}\]]\)|\1|;ta' \
+      "$file" | jq "$@"
+}
 
-# Build provider JSON
+# Get API URL from config, fall back to localhost:1234
+BASE_URL=$(read_jsonc "$CONFIG_FILE" -r '.provider.lmstudio.options.baseURL // empty' 2>/dev/null || true)
+API_URL="${BASE_URL:-http://localhost:1234}"
+API_URL="${API_URL%/v1}/api/v1/models"
+
+# Fetch models
+log "Fetching models from $API_URL ..."
+API_RESPONSE=$(curl -sf "$API_URL") || { log "ERROR: Failed to fetch from LM Studio API"; exit 1; }
+
+MODEL_COUNT=$(echo "$API_RESPONSE" | jq '[.models[] | select(.type == "llm")] | length')
+log "Processing $MODEL_COUNT models..."
+
+# Build provider patch (models only — preserves existing npm/name/options)
 PROVIDER=$(echo "$API_RESPONSE" | jq '{
   provider: {
     lmstudio: {
-      npm: "@ai-sdk/openai-compatible",
-      name: "LM Studio",
-      options: { baseURL: "http://localhost:1234/v1" },
-      models: (.models 
-        | map(select(.type == "llm")) 
+      models: (.models
+        | map(select(.type == "llm"))
         | map({
-            key: .key, 
+            key: .key,
             value: {
               name: ((.display_name | sub("\\s*\\(.*\\)$"; "")) + "@" + (.format // "uknw") + "-" + (.quantization.name // "uknw")),
               limit: {
@@ -47,7 +67,7 @@ PROVIDER=$(echo "$API_RESPONSE" | jq '{
                 output: ([32768, .max_context_length] | min)
               }
             } + (if .capabilities.vision then {modalities: {input: ["image", "text"], output: ["text"]}} else {} end)
-          }) 
+          })
         | sort_by(.key)
         | from_entries)
     }
@@ -55,29 +75,25 @@ PROVIDER=$(echo "$API_RESPONSE" | jq '{
 }')
 
 MODELS=$(echo "$PROVIDER" | jq '.provider.lmstudio.models')
-MODEL_COUNT=$(echo "$MODELS" | jq 'length')
-
-read_jsonc() { local file="$1"; shift; sed '/^[[:space:]]*\/\//d' "$file" | jq "$@"; }
 
 if $RESET; then
   log "Reset mode: Replacing models with $MODEL_COUNT models from API"
   if $DRY_RUN; then
-    log "[DRY-RUN] Would update opencode.jsonc"
-    read_jsonc opencode.jsonc --argjson models "$MODELS" '.provider.lmstudio.models = $models'
+    log "[DRY-RUN] Would update $CONFIG_FILE"
+    read_jsonc "$CONFIG_FILE" --argjson models "$MODELS" '.provider.lmstudio.models = $models'
   else
-    read_jsonc opencode.jsonc --argjson models "$MODELS" '.provider.lmstudio.models = $models' > opencode.jsonc.new
-    mv opencode.jsonc.new opencode.jsonc
-    log "✓ Updated opencode.jsonc with $MODEL_COUNT models"
+    read_jsonc "$CONFIG_FILE" --argjson models "$MODELS" '.provider.lmstudio.models = $models' > "$CONFIG_FILE.new"
+    mv "$CONFIG_FILE.new" "$CONFIG_FILE"
+    log "✓ Updated $CONFIG_FILE with $MODEL_COUNT models"
   fi
 else
   log "Merge mode: Merging $MODEL_COUNT models with existing config"
-  echo "$PROVIDER" > lmstudio-provider.json
   if $DRY_RUN; then
-    log "[DRY-RUN] Would merge with opencode.jsonc"
-    node scripts/deep-merge.js opencode.jsonc <(echo "$PROVIDER")
+    log "[DRY-RUN] Would merge with $CONFIG_FILE"
+    node scripts/deep-merge.js "$CONFIG_FILE" <(echo "$PROVIDER")
   else
-    node scripts/deep-merge.js opencode.jsonc lmstudio-provider.json > opencode.jsonc.new
-    mv opencode.jsonc.new opencode.jsonc
-    log "✓ Merged into opencode.jsonc"
+    node scripts/deep-merge.js "$CONFIG_FILE" <(echo "$PROVIDER") > "$CONFIG_FILE.new"
+    mv "$CONFIG_FILE.new" "$CONFIG_FILE"
+    log "✓ Merged into $CONFIG_FILE"
   fi
 fi

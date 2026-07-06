@@ -144,6 +144,8 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "LM Studio",
       "options": {
+        "timeout": 600000,
+        "setCacheKey": true,
         "baseURL": "http://localhost:1234/v1"
       },
       "models": {
