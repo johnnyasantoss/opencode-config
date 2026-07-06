@@ -59,7 +59,7 @@ PROVIDER=$(echo "$API_RESPONSE" | jq '{
       models: (.models
         | map(select(.type == "llm"))
         | map({
-            key: .key,
+            "key": .key,
             value: {
               name: ((.display_name | sub("\\s*\\(.*\\)$"; "")) + "@" + (.format // "uknw") + "-" + (.quantization.name // "uknw")),
               limit: {
