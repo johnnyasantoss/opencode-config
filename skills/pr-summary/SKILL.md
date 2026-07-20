@@ -2,7 +2,7 @@
 name: pr-summary
 description: This skill should be used when the user asks to "create a PR description",
   "write a pull request summary", "generate MR description", "summarize this branch",
-  "what should the PR say", or requests a pull request summary from commit history.
+  "what should the PR say", or requests a pull request summary from git history.
 agent: plan
 ---
 
@@ -16,7 +16,7 @@ absent from the diff.
 For the given branch, produce a concise PR description. Priority order:
 (1) surface decisions, tradeoffs, and external references not visible in code,
 (2) explain the high-level problem this branch solves,
-(3) list each commit with its message.
+(3) never list commits or information that obvious (commit/refs, branch name -- all of this is shown on any forge UI)
 
 ## Constraints
 
@@ -24,15 +24,15 @@ For the given branch, produce a concise PR description. Priority order:
 - Keep the summary section to 1-3 paragraphs
 - Assume reviewers read the code: never re-explain what the code already says
 - Link external references inline in the summary body
-- Use standard ASCII punctuation only; no em dashes, no smart quotes
+- !IMPORTANT! Use standard ASCII punctuation only: no em dashes (—), no arrows (→), no smart quotes ("" ''), no bullets (•), no other unicode characters
 - No horizontal lines anywhere
 - No filler phrases ("this PR adds", "the following changes were made")
+- Never list commits in the PR description body -- commits are noise to reviewers, not a narrative
+- Never use the ## Commits section -- it is noise to reviewers, not a narrative
 
 ## Output Format
 
-Start with a `## Commits` section listing each commit as a bold subheading
-with its short hash, followed by its body in plain text. Then a `## Summary`
-section with the narrative summary in GitHub-flavored markdown (assume this part will be copied to the PR description).
+Start directly with the narrative summary in GitHub-flavored markdown (assume this part will be copied to the PR description). Use bold subheadings for high-level areas of change (e.g. **Local transcription**, **Language support**, **Diarization**) to structure the description.
 
 ## Tool Instructions
 
@@ -52,7 +52,7 @@ repository in any way.
 
 ## Error Handling
 
-- If the branch has 1 commit: still list it, still write a summary
+- If the branch has 1 commit: still write a summary
 - If the user provides additional context verbally: prioritize their framing
   over any inferred narrative
 - If merge-base is ambiguous: ask which branch this is targeting

@@ -12,6 +12,13 @@
     ]
   },
   "formatter": true,
+  "lsp": true,
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000,
+    "tail_turns": 1
+  },
   "agent": {
     "general": {
       "model": "opencode-go/mimo-v2.5",
@@ -57,8 +64,8 @@
       "variant": "xhigh"
     }
   },
-  "model": "opencode-go/mimo-v2.5-pro",
-  "small_model": "opencode-go/mimo-v2.5",
+  "model": "opencode-go/glm-5.2",
+  "small_model": "opencode-go/deepseek-v4-flash",
   "permission": {
     "edit": "allow",
     "bash": {
@@ -84,7 +91,6 @@
       "sleep ??": "allow",
       "tail *": "allow",
       "wc*": "allow",
-      // deny system wide installs
       "brew install *": "deny",
       "sudo *": "deny",
       "npm -g *": "deny",
@@ -149,7 +155,9 @@
         "setCacheKey": true,
         "baseURL": "http://100.103.158.108:1234/v1"
       },
-      "models": {}
+      "models": {
+        // auto filled with opencode.override.json
+      }
     }
   },
   "server": {

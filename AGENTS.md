@@ -28,6 +28,12 @@
 - Prefer numbered lists
 - Address user as male
 
+## Delegating work
+- When starting a new task that requires knowledge about a lib/crate/module, search online its docs/src/more using @researcher subagent.
+- When trying to comprehend the current codebase, search existing implementations and patterns first before writing new code with @explorer subagent.
+
+IMPORTANT: @researcher for online/remote searches, @explorer for offline/local/codebase searches.
+
 ## Code Rules
 - User prefers simpler and readable code
 - User prefers code that can be reused with focus on maintainability (e.g. SOLID, KISS, DRY)
