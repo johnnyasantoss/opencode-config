@@ -12,5 +12,6 @@ keys/
 # Temp local provider files
 *-provider.json
 
-# Machine specific override
-opencode.override.json[c]
+# Config override
+opencode.*.json
+opencode.*.jsonc

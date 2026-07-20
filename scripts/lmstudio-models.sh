@@ -25,19 +25,21 @@ for arg in "$@"; do
 done
 
 # Find config file (prefer .jsonc, fall back to .json)
-CONFIG_FILE=""
-for f in opencode.jsonc opencode.json; do
-  if [[ -f "$f" ]]; then CONFIG_FILE="$f"; break; fi
-done
-[[ -z "$CONFIG_FILE" ]] && { log "ERROR: No opencode.jsonc or opencode.json found"; exit 1; }
+CONFIG_FILE="${CONFIG_FILE:-}"
+if [[ -z "$CONFIG_FILE" ]]; then
+  for f in opencode.offline.jsonc opencode.offline.json opencode.override.jsonc opencode.override.jsonc opencode.override.json opencode.jsonc opencode.json; do
+    if [[ -f "$f" ]]; then CONFIG_FILE="$f"; break; fi
+  done
+  [[ -z "$CONFIG_FILE" ]] && { log "ERROR: No opencode.override.jsonc, opencode.override.json, opencode.jsonc or opencode.json found"; exit 1; }
+fi
 
 # Read JSONC: strips // comments (inline + whole-line) and trailing commas
 read_jsonc() {
   local file="$1"; shift
   sed -e 's|\([[:space:]]\)//.*|\1|' \
-      -e 's|^[[:space:]]*//.*||' \
-      -e ':a' -e 's|,\([[:space:]]*[}\]]\)|\1|;ta' \
-      "$file" | jq "$@"
+    -e 's|^[[:space:]]*//.*||' \
+    -e ':a' -e 's|,\([[:space:]]*[}\]]\)|\1|;ta' \
+    "$file" | jq "$@"
 }
 
 # Get API URL from config, fall back to localhost:1234

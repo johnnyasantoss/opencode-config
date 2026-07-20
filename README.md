@@ -89,6 +89,7 @@ Dependency: `@opencode-ai/plugin` v1.4.3
 
 - [`opencode-vibeguard`](https://github.com/inkdust2021/opencode-vibeguard):
   External plugin. Redacts sensitive strings before sending to LLM providers.
+- `plugins/profile-override.ts`: Local plugin. Allows custom override per profile.
 - `plugins/dotenv-protection.ts`: Local plugin. Blocks the read tool and
   bash commands from accessing `.env` files.
 - `plugins/rtk.ts`: Local plugin. Intercepts bash commands and rewrites
